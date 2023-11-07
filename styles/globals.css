@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url('./fonts/OTF/Satoshi-Black.otf') format('otf'),
+}
+
+.container {
+	@apply max-w-6xl;
+}
+
+
+:root {
+	--foreground-rgb: 0, 0, 0;
+	--background-start-rgb: 214, 219, 220;
+	--background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--foreground-rgb: 255, 255, 255;
+		--background-start-rgb: 0, 0, 0;
+		--background-end-rgb: 0, 0, 0;
+	}
+}
+
+body {
+	@apply bg-black-main;
+	font-family: 'Satoshi', sans-serif;
+
+}
+
+input[type="search"] {
+	border: none;
+	background-color: #30313C;
+	font-weight: 400;
+	line-height: 20px;
+	margin: 0;
+	padding: 15px 20px;
+	font-size: 14px;
+	color: inherit;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	min-width: 380px;
+	max-width: 100%;
+	outline: none;
+	height: 40px;
+}
+
+input[type="search"]::placeholder {
+	color: #9B9D9F;
+}
+
+input[type="search"]:focus {
+	border: 1px solid #884DFE;
+}
+
+input[type="search"]::after {
+	background: transparent url("./../assets/icons/search.svg") no-repeat 13px;
+}
+
+.header {
+	border-bottom: 1px solid #313442
+}
