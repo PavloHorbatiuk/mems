@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @font-face {
-	font-family: 'Satoshi';
+	font-family: Satoshi;
 	src: url('./fonts/OTF/Satoshi-Black.otf') format('otf'),
 }
 
@@ -27,54 +27,83 @@
 }
 
 body {
-	@apply bg-black-main text-white;
-	font-family: 'Satoshi', sans-serif;
+	font-family: Satoshi, sans-serif;
 
+	@apply bg-black-main text-white;
 }
 
-input[type="search"] {
-	border: none;
-	background-color: #30313C;
-	font-weight: 400;
-	line-height: 20px;
+.field {
+	width: 100%;
+	max-width: 380px;
+	height: 40px;
 	margin: 0;
 	padding: 15px 20px;
-	font-size: 14px;
+
 	color: inherit;
+	border: none;
 	border: 1px solid transparent;
 	border-radius: 4px;
-	min-width: 380px;
-	max-width: 100%;
 	outline: none;
-	height: 40px;
+	background-color: #30313C;
+
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
 }
 
-input[type="search"]::placeholder {
+.field::placeholder {
 	color: #9B9D9F;
 }
 
-input[type="search"]:focus {
+.field:focus {
 	border: 1px solid #884DFE;
 }
 
-input[type="search"]::after {
+.field::after {
 	background: transparent url("./../assets/icons/search.svg") no-repeat 13px;
 }
 
 .header {
 	border-bottom: 1px solid #313442
 }
-.linkBtn{
-	/* background-image: linear-gradient(to right #A139FD 0%, #50BDFC 100%); */
-	background-color: #A139FD;
-	border-radius: 4px;
-	padding: 14px;
+
+.btn {
+	width: 100%;
 	max-width: 638px;
-	min-width: 50%;
-	box-shadow: rgba(0, 0, 0, 0.08);
+	padding: 14px;
+
 	transition: 0.5s;
+
+	border-radius: 4px;
+	background-color: #A139FD;
+	box-shadow: rgb(0 0 0 / 8%);
 }
 
-linkBtn:hover{
-	background-color: rgb(103, 10, 185);
+.btn:hover {
+	background-color: rgb(103 10 185);
+}
+
+.form {
+	display: grid;
+
+	box-sizing: border-box;
+	padding: 2rem;
+
+	border-radius: 1rem;
+	background-color: #272934;
+	grid-template-columns: 1fr;
+}
+
+.category-list{
+	display: flex;
+	flex:1;
+	justify-content: space-between;
+
+	width: 100%;
+	max-width: 638px;
+	height: 68px;
+	padding: 12px 20px;
+
+	border: 2px solid #323443;
+	background: #24252E;
 }
