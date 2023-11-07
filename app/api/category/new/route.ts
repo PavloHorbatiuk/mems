@@ -1,7 +1,8 @@
 import Category from "@/models/category";
 import { connectToDB } from "@/utils/database";
+import { NextRequest } from "next/server";
 
-export const POST = async (req: Request) => {
+export const POST = async (req: Request | NextRequest) => {
   const { category, check } = await req.json();
 
   try {

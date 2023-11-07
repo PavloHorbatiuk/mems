@@ -1,7 +1,8 @@
 import { connectToDB } from "@/utils/database";
 import Category from "@/models/category";
+import { NextRequest } from "next/server";
 
-export const GET = async (request: Promise<void>) => {
+export const GET = async (request: Request | NextRequest) => {
   try {
     await connectToDB();
 
