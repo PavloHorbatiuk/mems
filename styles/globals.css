@@ -27,7 +27,7 @@
 }
 
 body {
-	@apply bg-black-main;
+	@apply bg-black-main text-white;
 	font-family: 'Satoshi', sans-serif;
 
 }
@@ -63,4 +63,18 @@ input[type="search"]::after {
 
 .header {
 	border-bottom: 1px solid #313442
+}
+.linkBtn{
+	/* background-image: linear-gradient(to right #A139FD 0%, #50BDFC 100%); */
+	background-color: #A139FD;
+	border-radius: 4px;
+	padding: 14px;
+	max-width: 638px;
+	min-width: 50%;
+	box-shadow: rgba(0, 0, 0, 0.08);
+	transition: 0.5s;
+}
+
+linkBtn:hover{
+	background-color: rgb(103, 10, 185);
 }
