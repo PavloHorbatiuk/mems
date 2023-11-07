@@ -1,7 +1,11 @@
 import Category from "@/models/category";
 import { connectToDB } from "@/utils/database";
 
-export const GET = async (request, { params }) => {
+export const GET = async (
+  request: Request,
+  { params }: Record<string, any>
+) => {
+  console.log(typeof params, "type of");
   try {
     await connectToDB();
 
@@ -14,7 +18,11 @@ export const GET = async (request, { params }) => {
   }
 };
 
-export const DELETE = async (request, { params }) => {
+export const DELETE = async (
+  request: Request,
+  { params }: Record<string, any>
+) => {
+  console.log(params, "params");
   try {
     await connectToDB();
 

@@ -1,7 +1,7 @@
 import { connectToDB } from "@/utils/database";
 import Category from "@/models/category";
 
-export const GET = async (request) => {
+export const GET = async (request: Promise<void>) => {
   try {
     await connectToDB();
 

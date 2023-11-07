@@ -1,9 +1,9 @@
 import Category from "@/models/category";
 import { connectToDB } from "@/utils/database";
 
-export const POST = async (req) => {
+export const POST = async (req: Request) => {
   const { category, check } = await req.json();
-  console.log(req, "req");
+
   try {
     await connectToDB();
     const newCategory = new Category({
