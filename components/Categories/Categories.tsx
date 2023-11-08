@@ -1,14 +1,24 @@
 "use client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CategoryCardList } from "./CategoryList";
 import { FormType } from "../Form/FormCategory";
 import Header from "../Header/Header";
 import Link from "next/link";
-import { Routs } from "@/constants";
+import { API, Routes } from "@/constants";
 import Plus from "@/assets/icons/plus.svg";
+import ConfirmModal from "../UI/Modal/ConfirmModal";
 
+export interface ModalState {
+  isOpen: boolean;
+  confirm: boolean;
+  id?: string;
+}
 type Timeout = ReturnType<typeof setTimeout>;
+enum ModalText {
+  "TITLE" = "Delete the Category?",
+  "BODY" = 'All templates in the category will be moved to the category "Other" ',
+}
 
 function Categories() {
   const [categories, setCategories] = useState<FormType[]>([]);
@@ -17,6 +27,12 @@ function Categories() {
     undefined
   );
   const [searchedResults, setSearchedResults] = useState<FormType[]>([]);
+  const [modalState, setModalState] = useState<ModalState>({
+    isOpen: false,
+    confirm: false,
+    id: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const searchCategories = (search: string) => {
     const regex = new RegExp(search, "i");
@@ -34,36 +50,58 @@ function Categories() {
     );
   };
 
-  const handleDelete = async (category: FormType) => {
-    console.log(category, "category");
-    const hasConfirmed = confirm(
-      "Are you sure you want to delete this category"
-    );
-
-    if (hasConfirmed) {
-      try {
-        if (category._id) {
-          await axios.delete(`/api/category/${category._id.toString()}`);
-          const filteredCategories = categories.filter(
-            (item) => item._id !== category._id
-          );
-          setCategories(filteredCategories);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  const onDelete = (category: FormType) => {
+    setModalState((prev) => ({
+      ...prev,
+      isOpen: true,
+      id: category._id || "",
+    }));
   };
+
+  const handleDelete = useCallback(
+    async (confirm: boolean) => {
+      if (confirm) {
+        try {
+          if (modalState.id) {
+            setIsLoading(true);
+            const { status } = await axios.delete(
+              `${API.GET_CATEGORY}/${modalState.id.toString()}`
+            );
+            const filteredCategories = categories.filter(
+              (item) => item._id !== modalState.id
+            );
+            setCategories(filteredCategories);
+            if (status === 200) {
+              setIsLoading(false);
+              setModalState((prev) => ({
+                ...prev,
+                isOpen: false,
+                confirm: false,
+                id: "",
+              }));
+            }
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+    [categories, modalState.id]
+  );
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.get("/api/category");
-      const { data } = await response;
-      setCategories(data);
+      try {
+        const response = await axios.get(API.GET_CATEGORY);
+        const { data } = await response;
+        setCategories(data);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchCategories();
   }, []);
-
+  console.log("rerender");
   return (
     <>
       <Header
@@ -72,7 +110,7 @@ function Categories() {
         className="field"
       />
       <div className="flex  flex-col items-center justify-between pt-10">
-        <Link className="btn" href={Routs.CREATE_CATEGORY}>
+        <Link className="btn" href={Routes.CREATE_CATEGORY}>
           <div className=" flex items-center justify-center">
             <Plus />
             <span className="pl-2">Create category</span>
@@ -82,7 +120,15 @@ function Categories() {
           data={
             searchText && searchText.length > 0 ? searchedResults : categories
           }
-          handleDelete={handleDelete}
+          handleDelete={onDelete}
+          isLoading={isLoading}
+        />
+        <ConfirmModal
+          isOpen={modalState.isOpen}
+          setModalState={setModalState}
+          title={ModalText.TITLE}
+          bodyText={ModalText.BODY}
+          setConfirm={handleDelete}
         />
       </div>
     </>

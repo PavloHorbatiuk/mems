@@ -4,9 +4,10 @@ import CategoryCard from "./CategoryCard";
 interface IProps {
   data: FormType[];
   handleDelete: (mem: FormType) => void;
+  isLoading: boolean;
 }
 
-export const CategoryCardList = ({ data, handleDelete }: IProps) => {
+export const CategoryCardList = ({ data, handleDelete, isLoading }: IProps) => {
   return (
     <>
       {data?.map((mem, index) => (
@@ -14,6 +15,7 @@ export const CategoryCardList = ({ data, handleDelete }: IProps) => {
           key={index}
           data={mem}
           handleDelete={() => handleDelete(mem)}
+          isLoading={isLoading}
         />
       ))}
     </>

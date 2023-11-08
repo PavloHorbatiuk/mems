@@ -1,5 +1,5 @@
 import Label from "@/assets/icons/Logo.svg";
-import { Routs } from "@/constants";
+import { Routes } from "@/constants";
 import Link from "next/link";
 import { ChangeEvent } from "react";
 
@@ -16,7 +16,7 @@ function Header({ value, onChange, className }: IProps) {
     <div className="py-5 border-b border-solid border-grey-line">
       <div className="flex items-center justify-between container mx-auto">
         <div className="flex">
-          <Link href={Routs.HOME}>
+          <Link href={Routes.HOME}>
             <Label />
           </Link>
           <span className="pl-2 font-bold text-3xl text-white">Mems</span>

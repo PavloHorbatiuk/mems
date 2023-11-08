@@ -1,6 +1,6 @@
 "use client";
 import FormCategory, { FormType } from "@/components/Form/FormCategory";
-import { Names, Routs } from "@/constants";
+import { Names, Routes } from "@/constants";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +14,7 @@ const CreateCategory = () => {
         check: values.check,
       });
 
-      if (response.status == 201) router.push(Routs.HOME);
+      if (response.status == 201) router.push(Routes.HOME);
     } catch (error) {
       console.error(error);
     }

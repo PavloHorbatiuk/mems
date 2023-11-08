@@ -107,3 +107,25 @@ body {
 	border: 2px solid #323443;
 	background: #24252E;
 }
+
+.btn-grad {
+	display: block;
+
+	width: 100%;
+
+	padding: 14px;
+
+	transition: 0.5s;
+	text-align: center;
+
+	border-radius: 4px;
+	background-image: linear-gradient(to right, #A139FD 0%, #50BDFC 51%, #A139FD 100%);
+	background-size: 200% auto;
+	box-shadow: rgb(0 0 0 / 8%);
+}
+		
+.btn-grad:hover {
+	text-decoration: none;
+
+	background-position: right center;
+}

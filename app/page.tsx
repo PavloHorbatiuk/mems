@@ -1,6 +1,6 @@
 import Plus from "@/assets/icons/plus.svg";
 import Categories from "@/components/Categories/Categories";
-import { Routs } from "@/constants";
+import { Routes } from "@/constants";
 import Link from "next/link";
 
 export default function Home() {
