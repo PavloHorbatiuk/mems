@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CategoryCardList } from "./CategoryList";
 import { FormType } from "../Form/FormCategory";
 import Header from "../Header/Header";
@@ -33,6 +33,7 @@ function Categories() {
     id: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const timeRef = useRef<ReturnType<typeof setTimeout>>();
 
   const searchCategories = (search: string) => {
     const regex = new RegExp(search, "i");
@@ -40,9 +41,9 @@ function Categories() {
   };
 
   const handleSearchChange = (value: string) => {
-    clearTimeout(searchTimeout);
+    clearTimeout(timeRef.current);
     setSearchText(value);
-    setSearchTimeout(
+    timeRef.current = setSearchTimeout(
       setTimeout(() => {
         const searchResult = searchCategories(value);
         setSearchedResults(searchResult);
@@ -58,36 +59,28 @@ function Categories() {
     }));
   };
 
-  const handleDelete = useCallback(
-    async (confirm: boolean) => {
-      if (confirm) {
-        try {
-          if (modalState.id) {
-            setIsLoading(true);
-            const { status } = await axios.delete(
-              `${API.GET_CATEGORY}/${modalState.id.toString()}`
-            );
-            const filteredCategories = categories.filter(
-              (item) => item._id !== modalState.id
-            );
-            setCategories(filteredCategories);
-            if (status === 200) {
-              setIsLoading(false);
-              setModalState((prev) => ({
-                ...prev,
-                isOpen: false,
-                confirm: false,
-                id: "",
-              }));
-            }
-          }
-        } catch (error) {
-          console.error(error);
-        }
+  const fetChDelete = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      if (modalState.id) {
+        await axios.delete(`${API.GET_CATEGORY}/${modalState.id.toString()}`);
+        const filteredCategories = categories.filter(
+          (item) => item._id !== modalState.id
+        );
+        setCategories(filteredCategories);
       }
-    },
-    [categories, modalState.id]
-  );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      setModalState((prev) => ({
+        ...prev,
+        isOpen: false,
+        confirm: false,
+        id: "",
+      }));
+    }
+  }, [categories, modalState.id]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -101,7 +94,7 @@ function Categories() {
     };
     fetchCategories();
   }, []);
-  console.log("rerender");
+
   return (
     <>
       <Header
@@ -128,7 +121,7 @@ function Categories() {
           setModalState={setModalState}
           title={ModalText.TITLE}
           bodyText={ModalText.BODY}
-          setConfirm={handleDelete}
+          setConfirm={fetChDelete}
         />
       </div>
     </>
