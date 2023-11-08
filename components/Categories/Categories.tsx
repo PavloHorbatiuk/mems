@@ -23,9 +23,6 @@ enum ModalText {
 function Categories() {
   const [categories, setCategories] = useState<FormType[]>([]);
   const [searchText, setSearchText] = useState<string>("");
-  const [searchTimeout, setSearchTimeout] = useState<Timeout | undefined>(
-    undefined
-  );
   const [searchedResults, setSearchedResults] = useState<FormType[]>([]);
   const [modalState, setModalState] = useState<ModalState>({
     isOpen: false,
@@ -33,7 +30,7 @@ function Categories() {
     id: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const timeRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeRef = useRef<undefined | ReturnType<typeof setTimeout>>();
 
   const searchCategories = (search: string) => {
     const regex = new RegExp(search, "i");
@@ -43,12 +40,10 @@ function Categories() {
   const handleSearchChange = (value: string) => {
     clearTimeout(timeRef.current);
     setSearchText(value);
-    timeRef.current = setSearchTimeout(
-      setTimeout(() => {
-        const searchResult = searchCategories(value);
-        setSearchedResults(searchResult);
-      }, 500)
-    );
+    timeRef.current = setTimeout(() => {
+      const searchResult = searchCategories(value);
+      setSearchedResults(searchResult);
+    }, 500);
   };
 
   const onDelete = (category: FormType) => {
